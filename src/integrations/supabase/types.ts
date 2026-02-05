@@ -14,16 +14,406 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      addresses: {
+        Row: {
+          area: string
+          created_at: string | null
+          details: string | null
+          id: string
+          is_default: boolean | null
+          lat: number | null
+          lng: number | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          area: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          is_default?: boolean | null
+          lat?: number | null
+          lng?: number | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          area?: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          is_default?: boolean | null
+          lat?: number | null
+          lng?: number | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      chef_profiles: {
+        Row: {
+          area: string
+          available_now: boolean | null
+          avg_rating: number | null
+          bio: string | null
+          created_at: string | null
+          hygiene_agreement: boolean | null
+          id: string
+          is_verified: boolean | null
+          pickup_available: boolean | null
+          total_reviews: number | null
+          updated_at: string | null
+          user_id: string
+          working_hours: Json | null
+        }
+        Insert: {
+          area: string
+          available_now?: boolean | null
+          avg_rating?: number | null
+          bio?: string | null
+          created_at?: string | null
+          hygiene_agreement?: boolean | null
+          id?: string
+          is_verified?: boolean | null
+          pickup_available?: boolean | null
+          total_reviews?: number | null
+          updated_at?: string | null
+          user_id: string
+          working_hours?: Json | null
+        }
+        Update: {
+          area?: string
+          available_now?: boolean | null
+          avg_rating?: number | null
+          bio?: string | null
+          created_at?: string | null
+          hygiene_agreement?: boolean | null
+          id?: string
+          is_verified?: boolean | null
+          pickup_available?: boolean | null
+          total_reviews?: number | null
+          updated_at?: string | null
+          user_id?: string
+          working_hours?: Json | null
+        }
+        Relationships: []
+      }
+      meals: {
+        Row: {
+          allergens_text: string | null
+          chef_id: string
+          created_at: string | null
+          description: string | null
+          id: string
+          ingredients_text: string | null
+          is_available: boolean | null
+          max_qty_per_day: number | null
+          photo_url: string | null
+          prep_time_min: number
+          price: number
+          tags: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          allergens_text?: string | null
+          chef_id: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          ingredients_text?: string | null
+          is_available?: boolean | null
+          max_qty_per_day?: number | null
+          photo_url?: string | null
+          prep_time_min?: number
+          price: number
+          tags?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          allergens_text?: string | null
+          chef_id?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          ingredients_text?: string | null
+          is_available?: boolean | null
+          max_qty_per_day?: number | null
+          photo_url?: string | null
+          prep_time_min?: number
+          price?: number
+          tags?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          meal_id: string
+          order_id: string
+          price: number
+          qty: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          meal_id: string
+          order_id: string
+          price: number
+          qty?: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          meal_id?: string
+          order_id?: string
+          price?: number
+          qty?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_meal_id_fkey"
+            columns: ["meal_id"]
+            isOneToOne: false
+            referencedRelation: "meals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          accepted_at: string | null
+          address_id: string | null
+          chef_id: string
+          completed_at: string | null
+          created_at: string | null
+          customer_id: string
+          delivery_fee: number | null
+          id: string
+          notes: string | null
+          preferred_time: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total: number
+          updated_at: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          address_id?: string | null
+          chef_id: string
+          completed_at?: string | null
+          created_at?: string | null
+          customer_id: string
+          delivery_fee?: number | null
+          id?: string
+          notes?: string | null
+          preferred_time?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          address_id?: string | null
+          chef_id?: string
+          completed_at?: string | null
+          created_at?: string | null
+          customer_id?: string
+          delivery_fee?: number | null
+          id?: string
+          notes?: string | null
+          preferred_time?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name: string
+          id: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          chef_id: string
+          created_at: string | null
+          details: string | null
+          id: string
+          reason: string
+          reporter_id: string
+        }
+        Insert: {
+          chef_id: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          reason: string
+          reporter_id: string
+        }
+        Update: {
+          chef_id?: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          chef_id: string
+          comment: string | null
+          created_at: string | null
+          customer_id: string
+          id: string
+          order_id: string
+          ratings: Json
+        }
+        Insert: {
+          chef_id: string
+          comment?: string | null
+          created_at?: string | null
+          customer_id: string
+          id?: string
+          order_id: string
+          ratings?: Json
+        }
+        Update: {
+          chef_id?: string
+          comment?: string | null
+          created_at?: string | null
+          customer_id?: string
+          id?: string
+          order_id?: string
+          ratings?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_chefs: {
+        Row: {
+          chef_id: string
+          created_at: string | null
+          customer_id: string
+          id: string
+        }
+        Insert: {
+          chef_id: string
+          created_at?: string | null
+          customer_id: string
+          id?: string
+        }
+        Update: {
+          chef_id?: string
+          created_at?: string | null
+          customer_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "customer" | "chef"
+      order_status:
+        | "placed"
+        | "accepted"
+        | "cooking"
+        | "ready"
+        | "completed"
+        | "cancelled"
+        | "expired"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +540,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["customer", "chef"],
+      order_status: [
+        "placed",
+        "accepted",
+        "cooking",
+        "ready",
+        "completed",
+        "cancelled",
+        "expired",
+      ],
+    },
   },
 } as const
